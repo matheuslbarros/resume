@@ -11,7 +11,7 @@ export default async (req, res) => {
     res.status(403).json({ message: 'User already exists.' });
   } else {
     const user = await User.create({ name, email, password: hash(password) });
-    const token = sign({ email });
+    const token = sign({ id: user.id, email: user.email });
     
     res.status(201).send({ user, token });
   }
