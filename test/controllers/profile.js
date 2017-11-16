@@ -122,7 +122,25 @@ export default (app) => {
             });
         });
       });
-
+      
     });
+
+    describe('Get profile', () => {
+      describe('GET /api/profile', () => {
+        it('should get profile', (done) => {
+          request(app)
+            .get('/api/profile')
+            .set('x-access-token', token)
+            .end((err, res) => {
+              expect(res.statusCode).to.equal(200);
+              expect(res.body).to.be.an('object');
+              expect(res.body.first_name).to.be.an('string');
+              expect(res.body.first_name).to.be.eq(profile.first_name);
+              done();
+            });
+        });
+      });
+    });
+
   });
 };
