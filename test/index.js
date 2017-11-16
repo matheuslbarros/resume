@@ -5,6 +5,7 @@ import { DATABASE_URL } from '../config';
 import home from './controllers/home';
 import register from './controllers/register';
 import authenticate from './controllers/authenticate';
+import profile from './controllers/profile';
 
 describe('Backend Integration Tests', () => {
 
@@ -15,6 +16,7 @@ describe('Backend Integration Tests', () => {
   home(app);
   register(app);
   authenticate(app);
+  profile(app);
 
   after(() => {
     return database.disconnect();
