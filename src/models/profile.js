@@ -26,6 +26,24 @@ var ProfileSchema = new Schema({
   fone: String,
   skype: String,
   site: String,
+  experience: [
+    {
+      role: {
+        type: String,
+        required: true
+      },
+      company: {
+        type: String,
+        required: true
+      },
+      start: {
+        type: Date,
+        required: true
+      },
+      end: Date,
+      description: String,
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now

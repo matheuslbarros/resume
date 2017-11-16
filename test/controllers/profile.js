@@ -142,5 +142,33 @@ export default (app) => {
       });
     });
 
+    describe('Experience', () => {
+
+      const experience = {
+        role: 'Full stack developer',
+        company: 'Procergs',
+        start: new Date('2017/11'),
+        end: null,
+        description: 'Work experience description...'
+      };
+
+      describe('POST /api/profile/experience', () => {
+        it('should add a new experience', (done) => {
+          request(app)
+            .post('/api/profile/experience')
+            .set('x-access-token', token)
+            .send(experience)
+            .end((err, res) => {
+              expect(res.statusCode).to.equal(201);
+              expect(res.body).to.be.an('object');
+              expect(res.body.role).to.be.an('string');
+              expect(res.body.role).to.be.eq(experience.role);
+              done();
+            });
+        });
+      });
+
+    });
+
   });
 };
