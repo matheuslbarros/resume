@@ -159,7 +159,27 @@ export default (app) => {
             .set('x-access-token', token)
             .send(experience)
             .end((err, res) => {
+              experience.id = res.body._id;
+              
               expect(res.statusCode).to.equal(201);
+              expect(res.body).to.be.an('object');
+              expect(res.body.role).to.be.an('string');
+              expect(res.body.role).to.be.eq(experience.role);
+              done();
+            });
+        });
+      });
+
+      describe('PUT /api/profile/experience/:id', () => {
+        experience.role = 'Backend developer';
+
+        it('should update the experience', (done) => {
+          request(app)
+            .put('/api/profile/experience/' + experience.id)
+            .set('x-access-token', token)
+            .send(experience)
+            .end((err, res) => {
+              expect(res.statusCode).to.equal(200);
               expect(res.body).to.be.an('object');
               expect(res.body.role).to.be.an('string');
               expect(res.body.role).to.be.eq(experience.role);

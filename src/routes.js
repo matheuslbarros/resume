@@ -8,6 +8,7 @@ import createProfileAction from './controllers/profile/create';
 import updateProfileAction from './controllers/profile/update';
 
 import createExperienceAction from './controllers/profile/experience/create';
+import updateExperienceAction from './controllers/profile/experience/update';
 
 import authorizationHandler from './middlewares/authorizationHandler';
 
@@ -21,6 +22,7 @@ export default (router) => {
     router.get('/api/profile', authorizationHandler, getProfileAction);
     router.post('/api/profile', authorizationHandler, createProfileAction);
     router.put('/api/profile', authorizationHandler, updateProfileAction);
-    
+
     router.post('/api/profile/experience', authorizationHandler, createExperienceAction);
+    router.put('/api/profile/experience/:id', authorizationHandler, updateExperienceAction);
 };
