@@ -86,5 +86,43 @@ export default (app) => {
       });
 
     });
+
+    describe('Update profile', () => {
+
+      profile.first_name = "Mathews";
+
+      describe('PUT /api/profile', () => {
+        it('should throw bad request', (done) => {
+          request(app)
+            .put('/api/profile')
+            .set('x-access-token', token)
+            .send({ first_name: {} })
+            .end((err, res) => {
+              expect(res.statusCode).to.equal(400);
+              expect(res.body).to.be.an('object');
+              expect(res.body.message).to.be.an('string');
+              expect(res.body.message).to.be.eq('Fail to update profile.');
+              done();
+            });
+        });
+      });
+
+      describe('PUT /api/profile', () => {
+        it('should update profile', (done) => {
+          request(app)
+            .put('/api/profile')
+            .set('x-access-token', token)
+            .send(profile)
+            .end((err, res) => {
+              expect(res.statusCode).to.equal(200);
+              expect(res.body).to.be.an('object');
+              expect(res.body.first_name).to.be.an('string');
+              expect(res.body.first_name).to.be.eq(profile.first_name);
+              done();
+            });
+        });
+      });
+
+    });
   });
 };
