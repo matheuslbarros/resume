@@ -33,7 +33,7 @@ export default (app) => {
     });
 
     before(() => {
-      return Profile.findOneAndRemove({ user: profile.user });
+      return Profile.remove({ skype: profile.skype });
     });
 
     describe('Create a new profile', () => {
@@ -144,6 +144,8 @@ export default (app) => {
 
     describe('Experience', () => {
 
+      var experienceId = null;
+
       const experience = {
         role: 'Full stack developer',
         company: 'Procergs',
@@ -159,8 +161,7 @@ export default (app) => {
             .set('x-access-token', token)
             .send(experience)
             .end((err, res) => {
-              experience.id = res.body._id;
-              
+              experienceId = res.body._id;
               expect(res.statusCode).to.equal(201);
               expect(res.body).to.be.an('object');
               expect(res.body.role).to.be.an('string');
@@ -175,7 +176,7 @@ export default (app) => {
 
         it('should update the experience', (done) => {
           request(app)
-            .put('/api/profile/experience/' + experience.id)
+            .put('/api/profile/experience/' + experienceId)
             .set('x-access-token', token)
             .send(experience)
             .end((err, res) => {
@@ -183,6 +184,18 @@ export default (app) => {
               expect(res.body).to.be.an('object');
               expect(res.body.role).to.be.an('string');
               expect(res.body.role).to.be.eq(experience.role);
+              done();
+            });
+        });
+      });
+
+      describe('DELETE /api/profile/experience/:id', () => {
+        it('should delete the experience', (done) => {
+          request(app)
+            .delete('/api/profile/experience/' + experienceId)
+            .set('x-access-token', token)
+            .end((err, res) => {
+              expect(res.statusCode).to.equal(204);
               done();
             });
         });

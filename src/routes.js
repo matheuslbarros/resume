@@ -9,6 +9,7 @@ import updateProfileAction from './controllers/profile/update';
 
 import createExperienceAction from './controllers/profile/experience/create';
 import updateExperienceAction from './controllers/profile/experience/update';
+import deleteExperienceAction from './controllers/profile/experience/delete';
 
 import authorizationHandler from './middlewares/authorizationHandler';
 
@@ -25,4 +26,5 @@ export default (router) => {
 
     router.post('/api/profile/experience', authorizationHandler, createExperienceAction);
     router.put('/api/profile/experience/:id', authorizationHandler, updateExperienceAction);
+    router.delete('/api/profile/experience/:id', authorizationHandler, deleteExperienceAction);
 };
